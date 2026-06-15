@@ -20,6 +20,9 @@ apps/web/.next/
 apps/web/out/
 apps/web/build/
 
+# vercel
+.vercel/
+
 # logs
 *.log
 npm-debug.log*
