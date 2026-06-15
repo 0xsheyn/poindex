@@ -1,0 +1,15 @@
+{
+  "name": "poindex",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Poin DEX - DeFi swap DApp on OPN Chain",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "contracts:build": "npm --workspace packages/contracts run build",
+    "contracts:test": "npm --workspace packages/contracts run test",
+    "contracts:deploy:testnet": "npm --workspace packages/contracts run deploy:testnet"
+  }
+}

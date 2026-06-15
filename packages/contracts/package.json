@@ -1,0 +1,21 @@
+{
+  "name": "@poindex/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Poin DEX smart contracts (AMM + WOPN) for OPN Chain",
+  "scripts": {
+    "build": "hardhat compile",
+    "test": "hardhat test",
+    "coverage": "hardhat coverage",
+    "deploy:testnet": "hardhat run scripts/deploy.ts --network opnTestnet",
+    "deploy:mainnet": "hardhat run scripts/deploy.ts --network opnMainnet",
+    "seed:testnet": "hardhat run scripts/seedLiquidity.ts --network opnTestnet",
+    "paircodehash": "hardhat run scripts/pairCodeHash.ts"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/contracts": "^5.1.0",
+    "dotenv": "^16.4.5",
+    "hardhat": "^2.22.17"
+  }
+}
