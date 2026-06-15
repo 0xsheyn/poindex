@@ -222,17 +222,17 @@ export function SwapCard() {
   } else if (wrongChain) {
     cta = { label: switching ? "Switching…" : "Switch to OPN", onClick: () => switchChain({ chainId: opnTestnet.id }) };
   } else if (!amountInParsed || amountInParsed <= 0n) {
-    cta = { label: "Masukkan jumlah", disabled: true };
+    cta = { label: "Enter an amount", disabled: true };
   } else if (insufficient) {
-    cta = { label: `Saldo ${tokenIn.symbol} tidak cukup`, disabled: true };
+    cta = { label: `Insufficient ${tokenIn.symbol} balance`, disabled: true };
   } else if (quoting) {
-    cta = { label: "Menghitung…", disabled: true };
+    cta = { label: "Calculating…", disabled: true };
   } else if (!quote) {
-    cta = { label: "Tidak ada rute / likuiditas", disabled: true };
+    cta = { label: "No route / liquidity", disabled: true };
   } else if (needsApproval) {
-    cta = { label: busy ? "Menunggu…" : `Approve ${tokenIn.symbol}`, onClick: handleApprove, disabled: busy };
+    cta = { label: busy ? "Waiting…" : `Approve ${tokenIn.symbol}`, onClick: handleApprove, disabled: busy };
   } else {
-    cta = { label: busy ? "Memproses…" : "Swap", onClick: handleSwap, disabled: busy };
+    cta = { label: busy ? "Processing…" : "Swap", onClick: handleSwap, disabled: busy };
   }
 
   const routeLabel =
@@ -251,7 +251,7 @@ export function SwapCard() {
         <button
           onClick={() => setSettingsOpen(true)}
           className="rounded-lg p-2 text-muted transition hover:bg-surface2 hover:text-white"
-          title="Pengaturan"
+          title="Settings"
         >
           ⚙
         </button>
@@ -260,9 +260,9 @@ export function SwapCard() {
       {/* FROM */}
       <div className="rounded-xl2 bg-surface2 p-4">
         <div className="mb-2 flex items-center justify-between text-xs text-muted">
-          <span>Dari</span>
+          <span>From</span>
           <span>
-            Saldo: {formatAmount(balanceIn, tokenIn.decimals)}{" "}
+            Balance: {formatAmount(balanceIn, tokenIn.decimals)}{" "}
             <button
               className="text-primary hover:underline"
               onClick={() => setAmountIn(formatAmount(balanceIn, tokenIn.decimals, 18))}
@@ -289,7 +289,7 @@ export function SwapCard() {
         <button
           onClick={switchTokens}
           className="absolute -top-3 rounded-lg border border-border bg-surface p-1.5 text-muted transition hover:text-white"
-          title="Balik arah"
+          title="Switch direction"
         >
           ↑↓
         </button>
@@ -298,8 +298,8 @@ export function SwapCard() {
       {/* TO */}
       <div className="rounded-xl2 bg-surface2 p-4">
         <div className="mb-2 flex items-center justify-between text-xs text-muted">
-          <span>Ke (estimasi)</span>
-          <span>Saldo: {formatAmount(balanceOut, tokenOut.decimals)}</span>
+          <span>To (estimated)</span>
+          <span>Balance: {formatAmount(balanceOut, tokenOut.decimals)}</span>
         </div>
         <div className="flex items-center gap-2">
           <input
@@ -315,7 +315,7 @@ export function SwapCard() {
       {/* INFO */}
       {quote && (
         <div className="mt-3 space-y-1.5 rounded-xl2 border border-border bg-surface2/40 p-3 text-xs text-muted">
-          <Row label="Rute" value={routeLabel} />
+          <Row label="Route" value={routeLabel} />
           {quote.kind !== "wrap" && quote.kind !== "unwrap" && (
             <>
               <Row
@@ -327,8 +327,8 @@ export function SwapCard() {
                 }
                 warn={(quote.priceImpactPct ?? 0) > 5}
               />
-              <Row label="Min. diterima" value={`${formatAmount(minReceived, tokenOut.decimals)} ${tokenOut.symbol}`} />
-              <Row label="Biaya LP" value={`${(0.3 * quote.hops).toFixed(2)}%`} />
+              <Row label="Min. received" value={`${formatAmount(minReceived, tokenOut.decimals)} ${tokenOut.symbol}`} />
+              <Row label="LP fee" value={`${(0.3 * quote.hops).toFixed(2)}%`} />
             </>
           )}
         </div>
@@ -338,7 +338,7 @@ export function SwapCard() {
       <button
         onClick={cta.onClick}
         disabled={cta.disabled}
-        className="mt-4 w-full rounded-xl2 bg-primary py-3.5 text-base font-semibold text-white transition hover:bg-primaryHover disabled:cursor-not-allowed disabled:opacity-50"
+        className="mt-4 w-full rounded-xl2 bg-primary-gradient py-3.5 text-base font-semibold text-white shadow-lg shadow-primary/20 transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
       >
         {cta.label}
       </button>
@@ -347,14 +347,14 @@ export function SwapCard() {
       {txHash && (
         <div className="mt-3 rounded-lg bg-surface2 p-3 text-xs">
           {confirming ? (
-            <span className="text-amber-400">Menunggu konfirmasi…</span>
+            <span className="text-amber-400">Waiting for confirmation…</span>
           ) : isSuccess ? (
-            <span className="text-emerald-400">Transaksi sukses ✓</span>
+            <span className="text-accent">Transaction successful ✓</span>
           ) : (
-            <span className="text-muted">Transaksi terkirim</span>
+            <span className="text-muted">Transaction sent</span>
           )}{" "}
           <a href={txUrl(txHash)} target="_blank" rel="noreferrer" className="text-primary hover:underline">
-            Lihat di explorer ↗
+            View on explorer ↗
           </a>
         </div>
       )}

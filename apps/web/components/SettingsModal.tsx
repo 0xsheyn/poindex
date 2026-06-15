@@ -25,7 +25,7 @@ export function SettingsModal({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-4 flex items-center justify-between">
-          <h3 className="text-base font-semibold">Pengaturan</h3>
+          <h3 className="text-base font-semibold">Settings</h3>
           <button onClick={onClose} className="text-muted hover:text-white">
             ✕
           </button>
@@ -66,7 +66,7 @@ export function SettingsModal({
             onChange={(e) => setDeadlineMin(Math.max(1, Number(e.target.value)))}
             className="w-20 rounded-lg bg-surface2 px-3 py-1.5 text-sm outline-none"
           />
-          <span className="text-sm text-muted">menit</span>
+          <span className="text-sm text-muted">minutes</span>
         </div>
       </div>
     </div>

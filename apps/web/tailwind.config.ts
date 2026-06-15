@@ -5,16 +5,21 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        bg: "#0b0e13",
-        surface: "#141922",
-        surface2: "#1c232f",
-        border: "#2a3340",
-        primary: "#3b82f6",
-        primaryHover: "#2563eb",
-        muted: "#8b98a9",
+        // "Aurora" DeFi theme — dark slate + violet/blue primary, teal accent.
+        bg: "#0a0b10",
+        surface: "#14161f",
+        surface2: "#1c1f2b",
+        border: "#2a2f3d",
+        primary: "#7c6cff",
+        primaryHover: "#6a5af0",
+        accent: "#2dd4a7",
+        muted: "#8b93a7",
       },
       borderRadius: {
         xl2: "1.25rem",
+      },
+      backgroundImage: {
+        "primary-gradient": "linear-gradient(135deg, #7c6cff 0%, #5b8bff 100%)",
       },
     },
   },

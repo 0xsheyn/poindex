@@ -8,7 +8,11 @@
 
 html,
 body {
-  background: var(--bg, #0b0e13);
+  background-color: #0a0b10;
+  background-image: radial-gradient(900px 500px at 50% -10%, rgba(124, 108, 255, 0.18), transparent 60%),
+    radial-gradient(700px 400px at 90% 10%, rgba(45, 212, 167, 0.08), transparent 60%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
   color: #e6edf3;
   -webkit-font-smoothing: antialiased;
 }

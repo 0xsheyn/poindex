@@ -22,7 +22,7 @@ export function TokenModal({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="mb-3 flex items-center justify-between">
-          <h3 className="text-base font-semibold">Pilih token</h3>
+          <h3 className="text-base font-semibold">Select a token</h3>
           <button onClick={onClose} className="text-muted hover:text-white">
             ✕
           </button>
