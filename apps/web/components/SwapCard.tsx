@@ -19,6 +19,7 @@ import { applySlippage, formatAmount, safeParseUnits } from "@/lib/format";
 import { getQuote, type Quote } from "@/lib/swap";
 import { TokenModal } from "./TokenModal";
 import { SettingsModal } from "./SettingsModal";
+import { TokenIcon } from "./TokenIcon";
 
 const symbolOf = (addr: string) =>
   TOKENS.find((t) => !t.isNative && t.address.toLowerCase() === addr.toLowerCase())?.symbol ??
@@ -392,9 +393,7 @@ function TokenButton({ token, onClick }: { token: Token; onClick: () => void }) 
       onClick={onClick}
       className="flex shrink-0 items-center gap-2 rounded-xl bg-surface px-3 py-2 font-semibold transition hover:bg-border"
     >
-      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-border text-[10px] font-bold">
-        {token.symbol.slice(0, 2)}
-      </span>
+      <TokenIcon token={token} size={24} />
       {token.symbol}
       <span className="text-muted">▾</span>
     </button>

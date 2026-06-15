@@ -4,6 +4,7 @@ import { useAccount, useBalance, useReadContracts } from "wagmi";
 import { erc20Abi } from "@/lib/abis";
 import { formatAmount } from "@/lib/format";
 import { TOKENS, type Token } from "@/lib/tokens";
+import { TokenIcon } from "./TokenIcon";
 
 export function TokenModal({
   open,
@@ -65,9 +66,7 @@ export function TokenModal({
                   }}
                   className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left transition hover:bg-surface2"
                 >
-                  <span className="flex h-8 w-8 items-center justify-center rounded-full bg-surface2 text-xs font-bold">
-                    {t.symbol.slice(0, 2)}
-                  </span>
+                  <TokenIcon token={t} size={32} />
                   <span className="min-w-0">
                     <span className="block text-sm font-medium">{t.symbol}</span>
                     <span className="block truncate text-xs text-muted">{t.name}</span>
