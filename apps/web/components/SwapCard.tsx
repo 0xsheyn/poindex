@@ -5,7 +5,6 @@ import { maxUint256 } from "viem";
 import {
   useAccount,
   useBalance,
-  useChainId,
   useConnect,
   useReadContract,
   useSwitchChain,
@@ -39,10 +38,11 @@ function useAssetBalance(token: Token) {
 }
 
 export function SwapCard() {
-  const { address, isConnected } = useAccount();
-  const chainId = useChainId();
+  // chainId from useAccount reflects the WALLET's actual chain (useChainId reflects
+  // wagmi config state, which can stay 984 even when the wallet is on Ethereum).
+  const { address, isConnected, chainId } = useAccount();
   const { connect, connectors, isPending: connecting } = useConnect();
-  const { switchChain, isPending: switching } = useSwitchChain();
+  const { switchChain, switchChainAsync, isPending: switching } = useSwitchChain();
   const queryClient = useQueryClient();
 
   const [tokenIn, setTokenIn] = useState<Token>(findToken("OPN"));
@@ -125,9 +125,22 @@ export function SwapCard() {
   const minReceived = quote ? applySlippage(quote.amountOut, slippage) : 0n;
   const deadline = () => BigInt(Math.floor(Date.now() / 1000) + deadlineMin * 60);
 
+  // Guarantee the wallet is on OPN before any write; switch (and add) if needed.
+  async function ensureChain(): Promise<boolean> {
+    if (chainId === opnTestnet.id) return true;
+    try {
+      await switchChainAsync({ chainId: opnTestnet.id });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
   async function handleApprove() {
+    if (!(await ensureChain())) return;
     try {
       const hash = await writeContractAsync({
+        chainId: opnTestnet.id,
         address: tokenIn.address,
         abi: erc20Abi,
         functionName: "approve",
@@ -141,11 +154,13 @@ export function SwapCard() {
 
   async function handleSwap() {
     if (!quote || !amountInParsed || !address) return;
+    if (!(await ensureChain())) return;
     try {
       let hash: `0x${string}`;
       const dl = deadline();
       if (quote.kind === "wrap") {
         hash = await writeContractAsync({
+          chainId: opnTestnet.id,
           address: WOPN,
           abi: wopnAbi,
           functionName: "deposit",
@@ -153,6 +168,7 @@ export function SwapCard() {
         });
       } else if (quote.kind === "unwrap") {
         hash = await writeContractAsync({
+          chainId: opnTestnet.id,
           address: WOPN,
           abi: wopnAbi,
           functionName: "withdraw",
@@ -160,6 +176,7 @@ export function SwapCard() {
         });
       } else if (quote.kind === "ethForTokens") {
         hash = await writeContractAsync({
+          chainId: opnTestnet.id,
           address: ROUTER,
           abi: routerAbi,
           functionName: "swapExactETHForTokens",
@@ -168,6 +185,7 @@ export function SwapCard() {
         });
       } else if (quote.kind === "tokensForEth") {
         hash = await writeContractAsync({
+          chainId: opnTestnet.id,
           address: ROUTER,
           abi: routerAbi,
           functionName: "swapExactTokensForETH",
@@ -175,6 +193,7 @@ export function SwapCard() {
         });
       } else {
         hash = await writeContractAsync({
+          chainId: opnTestnet.id,
           address: ROUTER,
           abi: routerAbi,
           functionName: "swapExactTokensForTokens",

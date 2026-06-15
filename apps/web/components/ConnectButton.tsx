@@ -1,14 +1,14 @@
 "use client";
 
-import { useAccount, useConnect, useDisconnect, useChainId, useSwitchChain } from "wagmi";
+import { useAccount, useConnect, useDisconnect, useSwitchChain } from "wagmi";
 import { opnTestnet } from "@/lib/chains";
 import { shortAddress } from "@/lib/format";
 
 export function ConnectButton() {
-  const { address, isConnected } = useAccount();
+  // Use the wallet's actual chainId (useAccount), not wagmi config state (useChainId).
+  const { address, isConnected, chainId } = useAccount();
   const { connect, connectors, isPending } = useConnect();
   const { disconnect } = useDisconnect();
-  const chainId = useChainId();
   const { switchChain, isPending: switching } = useSwitchChain();
 
   const injected = connectors.find((c) => c.id === "injected") ?? connectors[0];
